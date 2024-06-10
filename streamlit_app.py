@@ -134,7 +134,7 @@ else:
             # Ajustar tamaños de las fuentes y colores
             ax.set_xlabel('Fecha', fontsize=4, color='white')
             ax.set_ylabel('Rendimiento', fontsize=4, color='white')
-            ax.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white')
+            ax.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white', markerscale=0.8, handletextpad=0.5)
             ax.tick_params(axis='both', which='major', labelsize=4, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
@@ -196,7 +196,7 @@ else:
             # Ajustar tamaños de las fuentes y colores
             ax2.set_xlabel('Fecha', fontsize=4, color='white')
             ax2.set_ylabel('Litros', fontsize=4, color='white')
-            ax2.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white')
+            ax2.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white', markerscale=0.8, handletextpad=0.5)
             ax2.tick_params(axis='both', which='major', labelsize=4, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
