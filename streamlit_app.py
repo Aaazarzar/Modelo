@@ -94,12 +94,12 @@ else:
             summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig, ax = plt.subplots(figsize=(3, 3))  # Tamaño en pulgadas (más pequeño)
+            fig, ax = plt.subplots(figsize=(4, 3))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig.patch.set_facecolor('black')
             ax.set_facecolor('black')
-            ax.plot(summary_all_lines['Fecha'], summary_all_lines['Rendimiento'], label='Datos Reales', color='red', marker='o')
+            ax.plot(summary_all_lines['Fecha'], summary_all_lines['Rendimiento'], label='Datos Reales', color='red', marker='o', linewidth=1, markersize=4)
             ax.grid(False)  # Quitar gridlines
 
             # Si el rango de fechas incluye periodos futuros, realizar la predicción
@@ -156,12 +156,12 @@ else:
             summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig2, ax2 = plt.subplots(figsize=(3, 3))  # Tamaño en pulgadas (más pequeño)
+            fig2, ax2 = plt.subplots(figsize=(4, 3))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig2.patch.set_facecolor('black')
             ax2.set_facecolor('black')
-            ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Ctd_total_reg'], label='Datos Reales', color='red', marker='o')
+            ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Ctd_total_reg'], label='Datos Reales', color='red', marker='o', linewidth=1, markersize=4)
             ax2.grid(False)  # Quitar gridlines
 
             # Si el rango de fechas incluye periodos futuros, realizar la predicción
@@ -196,7 +196,7 @@ else:
             # Ajustar tamaños de las fuentes y colores
             ax2.set_xlabel('Fecha', fontsize=4, color='white')
             ax2.set_ylabel('Litros', fontsize=4, color='white')
-            ax2.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white', markerscale=0.8, handletextpad=0.5)
+            ax2.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white', markerscale=1.2, handletextpad=0.8)
             ax2.tick_params(axis='both', which='major', labelsize=4, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
