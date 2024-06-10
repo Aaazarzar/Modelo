@@ -3,3 +3,4 @@ pandas
 plost
 matplotlib
 statsmodels
+openpyxl
