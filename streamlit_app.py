@@ -94,7 +94,7 @@ else:
             summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig, ax = plt.subplots(figsize=(6, 3))  # Tamaño en pulgadas (más pequeño)
+            fig, ax = plt.subplots(figsize=(4, 2))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig.patch.set_facecolor('black')
@@ -157,7 +157,7 @@ else:
             summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig2, ax2 = plt.subplots(figsize=(6, 3))  # Tamaño en pulgadas (más pequeño)
+            fig2, ax2 = plt.subplots(figsize=(4, 2))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig2.patch.set_facecolor('black')
@@ -169,14 +169,14 @@ else:
             if end_date > summary_litros_data['Fecha'].max():
                 cantidad_series_litros = summary_litros_data.set_index('Fecha')['Ctd_total_reg']
 
-                                # Definir parámetros SARIMA (esto debe ser ajustado según tu modelo específico)
+                # Definir parámetros SARIMA (esto debe ser ajustado según tu modelo específico)
                 order = (1, 1, 1)
                 seasonal_order = (1, 1, 1, 12)
                 steps = (end_date - summary_litros_data['Fecha'].max()).days // 30
 
                 if steps > 0:
                     try:
-                        # Ajustar el modelo SARIMA
+                                                # Ajustar el modelo SARIMA
                         model2 = SARIMAX(cantidad_series_litros, order=order, seasonal_order=seasonal_order)
                         model_fit2 = model2.fit(disp=False)
 
@@ -205,4 +205,5 @@ else:
 
             # Mostrar la figura en Streamlit con tamaño ajustado
             st.pyplot(fig2, use_container_width=True)
+
 
