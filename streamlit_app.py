@@ -9,7 +9,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 # Cargar datos desde el archivo Excel
 @st.cache_data
 def load_data():
-    data = pd.read_excel('/mnt/data/Rendimiento (3).xlsx')
+    data = pd.read_excel('Rendimiento (3).xlsx')
     data['Fecha'] = pd.to_datetime(data['Fecha'])
     return data
 
