@@ -10,17 +10,11 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 # Cargar datos desde el archivo Excel
 @st.cache_data
 def load_data():
-    data = pd.read_excel('Rendimiento (3).xlsx')
+    data = pd.read_excel('/mnt/data/Rendimiento (3).xlsx')
     data['Fecha'] = pd.to_datetime(data['Fecha'])
     return data
 
-# Intentar cargar los datos y mostrar una advertencia si hay algún problema
-try:
-    data2 = load_data()
-    st.write("Datos cargados correctamente:")
-    st.write(data2.head())
-except Exception as e:
-    st.error(f"Error al cargar los datos: {e}")
+data2 = load_data()
 
 # Lista de pinturas disponibles para predicción
 available_paintings = [
@@ -59,9 +53,6 @@ with col4:
 start_date = pd.Timestamp(datetime.date(start_year, start_month, 1))
 end_date = pd.Timestamp(datetime.date(end_year, end_month, 1) + pd.DateOffset(months=1) - pd.DateOffset(days=1))
 
-st.write(f"Fecha de inicio seleccionada: {start_date}")
-st.write(f"Fecha de fin seleccionada: {end_date}")
-
 if start_date > end_date:
     st.error('Error: La fecha de inicio debe ser anterior a la fecha de fin.')
 else:
@@ -70,9 +61,6 @@ else:
                                     (data2['Línea'].isin(selected_linea)) &
                                     (data2['Fecha'] >= start_date) &
                                     (data2['Fecha'] <= end_date)]
-
-    st.write(f"Datos filtrados para {selected_painting} entre {start_date} y {end_date}:")
-    st.write(filtered_data_all_lines.head())
 
     if filtered_data_all_lines.empty:
         st.warning('No hay datos disponibles para el rango de fechas seleccionado.')
@@ -85,9 +73,6 @@ else:
 
         # Convertir la columna 'Fecha' a tipo datetime
         summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
-
-        st.write("Resumen de los datos agregados por fecha:")
-        st.write(summary_all_lines.head())
 
         # Crear la visualización con la serie temporal filtrada
         fig, ax = plt.subplots(figsize=(8, 4))  # Tamaño en pulgadas (más pequeño)
