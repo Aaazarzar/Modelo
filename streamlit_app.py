@@ -60,8 +60,6 @@ with col4:
 start_date = pd.Timestamp(datetime.date(start_year, start_month, 1))
 end_date = pd.Timestamp(datetime.date(end_year, end_month, 1) + pd.DateOffset(months=1) - pd.DateOffset(days=1))
 
-st.write(f"Fecha de inicio seleccionada: {start_date}")
-st.write(f"Fecha de fin seleccionada: {end_date}")
 
 # Verificar si las columnas 'Registrado' y 'Ctd.total reg.' existen en litros_data
 if 'Registrado' not in litros_data.columns or 'Ctd.total reg.' not in litros_data.columns:
@@ -78,7 +76,7 @@ else:
                                         (data2['Fecha'] >= start_date) &
                                         (data2['Fecha'] <= end_date)]
 
-        filtered_litros_data = litros_data[(litros_data['Pintura'] == selected_painting) &
+        filtered_litros_data = litros_data[(litros_data['Texto breve de material'] == selected_painting) &
                                            (litros_data['Línea'].isin(selected_linea)) &
                                            (litros_data['Registrado'] >= start_date) &
                                            (litros_data['Registrado'] <= end_date)]
