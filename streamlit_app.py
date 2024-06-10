@@ -36,7 +36,7 @@ selected_linea = ['Pintado 1 UNI']
 
 # Definir el rango de selección de fechas
 min_year = 2021
-max_year = 2026
+max_year = 2024
 
 # Colocar los selectores de fechas en una sola fila
 col1, col2, col3, col4 = st.columns(4)
