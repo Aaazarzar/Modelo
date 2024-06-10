@@ -17,7 +17,7 @@ def load_data():
 @st.cache_data
 def load_litros_data():
     data = pd.read_csv('LitrosFiltrada (1).csv')
-    st.write("Litros Data Column Names:", data.columns)  # Depuración: Mostrar nombres de columnas
+    data['Registrado'] = pd.to_datetime(data['Registrado'])
     return data
 
 data2 = load_data()
