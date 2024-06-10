@@ -17,7 +17,10 @@ def load_data():
 @st.cache_data
 def load_litros_data():
     data = pd.read_csv('LitrosFiltrada (1).csv')
-    data['Fecha'] = pd.to_datetime(data['Fecha'])
+    st.write("Litros Data Column Names:", data.columns)  # Depuración: Mostrar nombres de columnas
+    if 'Registrado' not in data.columns or 'Ctd.total reg.' not in data.columns:
+        st.error("Las columnas 'Registrado' o 'Ctd.total reg.' no se encuentran en el archivo CSV.")
+    data['Registrado'] = pd.to_datetime(data['Registrado'])
     return data
 
 data2 = load_data()
@@ -71,8 +74,8 @@ else:
 
     filtered_litros_data = litros_data[(litros_data['Pintura'] == selected_painting) &
                                        (litros_data['Línea'].isin(selected_linea)) &
-                                       (litros_data['Fecha'] >= start_date) &
-                                       (litros_data['Fecha'] <= end_date)]
+                                       (litros_data['Registrado'] >= start_date) &
+                                       (litros_data['Registrado'] <= end_date)]
 
     if filtered_data_all_lines.empty:
         st.warning('No hay datos disponibles para el rango de fechas seleccionado.')
@@ -141,10 +144,10 @@ else:
         st.warning('No hay datos disponibles para el rango de fechas seleccionado para el modelo de rendimiento.')
     else:
         # Sumar el rendimiento para la pintura seleccionada por cada mes
-        summary_litros_data = filtered_litros_data.groupby('Fecha')['Rendimiento'].sum().reset_index()
+        summary_litros_data = filtered_litros_data.groupby('Registrado')['Ctd.total reg.'].sum().reset_index()
 
         # Renombrar las columnas para mayor claridad
-        summary_litros_data.columns = ['Fecha', 'Rendimiento']
+        summary_litros_data.columns = ['Fecha', 'Ctd_total_reg']
 
         # Convertir la columna 'Fecha' a tipo datetime
         summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
@@ -155,12 +158,12 @@ else:
         # Configurar fondo negro, quitar gridlines y línea roja
         fig2.patch.set_facecolor('black')
         ax2.set_facecolor('black')
-        ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Rendimiento'], label='Datos Reales', color='red', marker='o')
+        ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Ctd_total_reg'], label='Datos Reales', color='red', marker='o')
         ax2.grid(False)  # Quitar gridlines
 
         # Si el rango de fechas incluye periodos futuros, realizar la predicción
         if end_date > summary_litros_data['Fecha'].max():
-            cantidad_series_litros = summary_litros_data.set_index('Fecha')['Rendimiento']
+            cantidad_series_litros = summary_litros_data.set_index('Fecha')['Ctd_total_reg']
 
             # Definir parámetros SARIMA (esto debe ser ajustado según tu modelo específico)
             order = (1, 1, 1)
@@ -173,12 +176,12 @@ else:
                     model2 = SARIMAX(cantidad_series_litros, order=order, seasonal_order=seasonal_order)
                     model_fit2 = model2.fit(disp=False)
 
-                    # Predecir los próximos meses hasta el end_date
+                                        # Predecir los próximos meses hasta el end_date
                     forecast2 = model_fit2.get_forecast(steps=steps)
                     predicted_mean2 = forecast2.predicted_mean
                     pred_ci2 = forecast2.conf_int()
 
-                      # Mostrar predicciones y los intervalos de confianza
+                    # Mostrar predicciones y los intervalos de confianza
                     predicted_mean2.index = pd.date_range(start=cantidad_series_litros.index[-1] + pd.DateOffset(months=1), periods=steps, freq='M')
                     pred_ci2.index = predicted_mean2.index
 
@@ -198,3 +201,4 @@ else:
 
         # Mostrar la figura en Streamlit con tamaño ajustado
         st.pyplot(fig2, use_container_width=True)
+
