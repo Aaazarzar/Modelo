@@ -94,7 +94,7 @@ else:
             summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig, ax = plt.subplots(figsize=(2, 2))  # Tamaño en pulgadas (más pequeño)
+            fig, ax = plt.subplots(figsize=(3, 2))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig.patch.set_facecolor('black')
@@ -132,11 +132,10 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax.set_xlabel('Fecha', fontsize=5, color='white')
-            ax.set_ylabel('Rendimiento', fontsize=5, color='white')
-            ax.set_title(f'Predicción de Rendimiento de Pintura - {selected_painting}', fontsize=7, color='white')
-            ax.legend(fontsize=5, facecolor='black', edgecolor='white', labelcolor='white')
-            ax.tick_params(axis='both', which='major', labelsize=5, colors='white')
+            ax.set_xlabel('Fecha', fontsize=3, color='white')
+            ax.set_ylabel('Rendimiento', fontsize=3, color='white')
+            ax.legend(fontsize=3, facecolor='black', edgecolor='white', labelcolor='white')
+            ax.tick_params(axis='both', which='major', labelsize=3, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
 
@@ -157,7 +156,7 @@ else:
             summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig2, ax2 = plt.subplots(figsize=(1, 1))  # Tamaño en pulgadas (más pequeño)
+            fig2, ax2 = plt.subplots(figsize=(2, 1))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig2.patch.set_facecolor('black')
@@ -195,11 +194,10 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax2.set_xlabel('Fecha', fontsize=5, color='white')
-            ax2.set_ylabel('Litros', fontsize=5, color='white')
-            ax2.set_title(f'Predicción de Litros - {selected_painting}', fontsize=7, color='white')
-            ax2.legend(fontsize=5, facecolor='black', edgecolor='white', labelcolor='white')
-            ax2.tick_params(axis='both', which='major', labelsize=5, colors='white')
+            ax2.set_xlabel('Fecha', fontsize=3, color='white')
+            ax2.set_ylabel('Litros', fontsize=3, color='white')
+            ax2.legend(fontsize=3, facecolor='black', edgecolor='white', labelcolor='white')
+            ax2.tick_params(axis='both', which='major', labelsize=3, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
 
