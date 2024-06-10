@@ -17,6 +17,7 @@ def load_data():
 @st.cache_data
 def load_litros_data():
     data = pd.read_csv('LitrosFiltrada (1).csv')
+    print(data.columns)
     st.write("Litros Data Column Names:", data.columns)  # Depuración: Mostrar nombres de columnas
     if 'Registrado' not in data.columns or 'Ctd.total reg.' not in data.columns:
         st.error("Las columnas 'Registrado' o 'Ctd.total reg.' no se encuentran en el archivo CSV.")
