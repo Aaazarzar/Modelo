@@ -10,7 +10,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 # Cargar datos desde el archivo Excel
 @st.cache_data
 def load_data():
-    data = pd.read_excel('Rendimiento (3).xlsx')
+    data = pd.read_excel('/mnt/data/Rendimiento (3).xlsx')
     data['Fecha'] = pd.to_datetime(data['Fecha'])
     return data
 
@@ -84,4 +84,39 @@ else:
 
             # Definir parámetros SARIMA (esto debe ser ajustado según tu modelo específico)
             order = (1, 1, 1)
-            s
+            seasonal_order = (1, 1, 1, 12)
+            steps = (end_date - summary_all_lines['Fecha'].max()).days // 30
+
+            if steps > 0:
+                try:
+                    # Ajustar el modelo SARIMA
+                    model = SARIMAX(cantidad_series_all_lines, order=order, seasonal_order=seasonal_order)
+                    model_fit = model.fit(disp=False)
+
+                    # Predecir los próximos meses hasta el end_date
+                    forecast = model_fit.get_forecast(steps=steps)
+                    predicted_mean = forecast.predicted_mean
+                    pred_ci = forecast.conf_int()
+
+                    # Mostrar predicciones y los intervalos de confianza
+                    predicted_mean.index = pd.date_range(start=cantidad_series_all_lines.index[-1] + pd.DateOffset(months=1), periods=steps, freq='M')
+                    pred_ci.index = predicted_mean.index
+
+                    ax.plot(predicted_mean.index, predicted_mean, label='Predicción', marker='x', linestyle='--')
+                    ax.fill_between(pred_ci.index, pred_ci.iloc[:, 0], pred_ci.iloc[:, 1], color='k', alpha=0.1)
+                except Exception as e:
+                    st.error(f'Error al ajustar el modelo SARIMA: {e}')
+        
+        # Ajustar tamaños de las fuentes
+        ax.set_xlabel('Fecha', fontsize=10)
+        ax.set_ylabel('Cantidad', fontsize=10)
+        ax.set_title(f'Predicción de Cantidad de Pintura - {selected_painting}', fontsize=12)
+        ax.legend(fontsize=10)
+        ax.tick_params(axis='both', which='major', labelsize=10)
+
+        ax.grid(True)
+        plt.tight_layout()  # Ajusta el layout para evitar solapamiento
+
+        # Mostrar la figura en Streamlit con tamaño ajustado
+        st.pyplot(fig, use_container_width=True)
+
