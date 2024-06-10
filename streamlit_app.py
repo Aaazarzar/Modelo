@@ -7,14 +7,21 @@ import datetime
 # Configurar la página de Streamlit
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
-# Cargar datos desde el archivo Excel
+# Cargar datos desde los archivos
 @st.cache_data
 def load_data():
     data = pd.read_excel('Rendimiento (3).xlsx')
     data['Fecha'] = pd.to_datetime(data['Fecha'])
     return data
 
+@st.cache_data
+def load_litros_data():
+    data = pd.read_csv('LitrosFiltrada (1).csv')
+    data['Fecha'] = pd.to_datetime(data['Fecha'])
+    return data
+
 data2 = load_data()
+litros_data = load_litros_data()
 
 # Lista de pinturas disponibles para predicción
 available_paintings = [
@@ -61,6 +68,11 @@ else:
                                     (data2['Línea'].isin(selected_linea)) &
                                     (data2['Fecha'] >= start_date) &
                                     (data2['Fecha'] <= end_date)]
+
+    filtered_litros_data = litros_data[(litros_data['Pintura'] == selected_painting) &
+                                       (litros_data['Línea'].isin(selected_linea)) &
+                                       (litros_data['Fecha'] >= start_date) &
+                                       (litros_data['Fecha'] <= end_date)]
 
     if filtered_data_all_lines.empty:
         st.warning('No hay datos disponibles para el rango de fechas seleccionado.')
@@ -123,3 +135,66 @@ else:
 
         # Mostrar la figura en Streamlit con tamaño ajustado
         st.pyplot(fig, use_container_width=True)
+
+    # Filtrar los datos de litros para la gráfica de rendimiento
+    if filtered_litros_data.empty:
+        st.warning('No hay datos disponibles para el rango de fechas seleccionado para el modelo de rendimiento.')
+    else:
+        # Sumar el rendimiento para la pintura seleccionada por cada mes
+        summary_litros_data = filtered_litros_data.groupby('Fecha')['Rendimiento'].sum().reset_index()
+
+        # Renombrar las columnas para mayor claridad
+        summary_litros_data.columns = ['Fecha', 'Rendimiento']
+
+        # Convertir la columna 'Fecha' a tipo datetime
+        summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
+
+        # Crear la visualización con la serie temporal filtrada
+        fig2, ax2 = plt.subplots(figsize=(6, 3))  # Tamaño en pulgadas (más pequeño)
+
+        # Configurar fondo negro, quitar gridlines y línea roja
+        fig2.patch.set_facecolor('black')
+        ax2.set_facecolor('black')
+        ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Rendimiento'], label='Datos Reales', color='red', marker='o')
+        ax2.grid(False)  # Quitar gridlines
+
+        # Si el rango de fechas incluye periodos futuros, realizar la predicción
+        if end_date > summary_litros_data['Fecha'].max():
+            cantidad_series_litros = summary_litros_data.set_index('Fecha')['Rendimiento']
+
+            # Definir parámetros SARIMA (esto debe ser ajustado según tu modelo específico)
+            order = (1, 1, 1)
+            seasonal_order = (1, 1, 1, 12)
+            steps = (end_date - summary_litros_data['Fecha'].max()).days // 30
+
+            if steps > 0:
+                try:
+                    # Ajustar el modelo SARIMA
+                    model2 = SARIMAX(cantidad_series_litros, order=order, seasonal_order=seasonal_order)
+                    model_fit2 = model2.fit(disp=False)
+
+                    # Predecir los próximos meses hasta el end_date
+                    forecast2 = model_fit2.get_forecast(steps=steps)
+                    predicted_mean2 = forecast2.predicted_mean
+                    pred_ci2 = forecast2.conf_int()
+
+                      # Mostrar predicciones y los intervalos de confianza
+                    predicted_mean2.index = pd.date_range(start=cantidad_series_litros.index[-1] + pd.DateOffset(months=1), periods=steps, freq='M')
+                    pred_ci2.index = predicted_mean2.index
+
+                    ax2.plot(predicted_mean2.index, predicted_mean2, label='Predicción', color='yellow', marker='x', linestyle='--')
+                    ax2.fill_between(pred_ci2.index, pred_ci2.iloc[:, 0], pred_ci2.iloc[:, 1], color='gray', alpha=0.1)
+                except Exception as e:
+                    st.error(f'Error al ajustar el modelo SARIMA: {e}')
+        
+        # Ajustar tamaños de las fuentes y colores
+        ax2.set_xlabel('Fecha', fontsize=10, color='white')
+        ax2.set_ylabel('Cantidad', fontsize=10, color='white')
+        ax2.set_title(f'Predicción de Rendimiento - {selected_painting}', fontsize=12, color='white')
+        ax2.legend(fontsize=10, facecolor='black', edgecolor='white', labelcolor='white')
+        ax2.tick_params(axis='both', which='major', labelsize=10, colors='white')
+
+        plt.tight_layout()  # Ajusta el layout para evitar solapamiento
+
+        # Mostrar la figura en Streamlit con tamaño ajustado
+        st.pyplot(fig2, use_container_width=True)
