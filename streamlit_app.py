@@ -10,7 +10,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 # Cargar datos desde los archivos
 @st.cache_data
 def load_data():
-    data = pd.read_excel('Rendimiento (3).xlsx')
+    data = pd.read_excel('Rendimiento_Imputado.xlsx')
     data['Fecha'] = pd.to_datetime(data['Fecha'])
     return data
 
@@ -133,8 +133,8 @@ else:
             
             # Ajustar tamaños de las fuentes y colores
             ax.set_xlabel('Fecha', fontsize=10, color='white')
-            ax.set_ylabel('Cantidad', fontsize=10, color='white')
-            ax.set_title(f'Predicción de Cantidad de Pintura - {selected_painting}', fontsize=12, color='white')
+            ax.set_ylabel('Rendimiento', fontsize=10, color='white')
+            ax.set_title(f'Predicción de Rendimiento de Pintura - {selected_painting}', fontsize=12, color='white')
             ax.legend(fontsize=10, facecolor='black', edgecolor='white', labelcolor='white')
             ax.tick_params(axis='both', which='major', labelsize=10, colors='white')
 
@@ -196,8 +196,8 @@ else:
             
             # Ajustar tamaños de las fuentes y colores
             ax2.set_xlabel('Fecha', fontsize=10, color='white')
-            ax2.set_ylabel('Cantidad', fontsize=10, color='white')
-            ax2.set_title(f'Predicción de Rendimiento - {selected_painting}', fontsize=12, color='white')
+            ax2.set_ylabel('Litros', fontsize=10, color='white')
+            ax2.set_title(f'Predicción de Litros - {selected_painting}', fontsize=12, color='white')
             ax2.legend(fontsize=10, facecolor='black', edgecolor='white', labelcolor='white')
             ax2.tick_params(axis='both', which='major', labelsize=10, colors='white')
 
