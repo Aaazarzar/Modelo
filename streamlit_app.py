@@ -36,7 +36,7 @@ selected_linea = ['Pintado 1 UNI']
 
 # Definir el rango de selección de fechas
 min_year = 2021
-max_year = 2024
+max_year = 2025
 
 # Colocar los selectores de fechas en una sola fila
 col1, col2, col3, col4 = st.columns(4)
@@ -75,12 +75,12 @@ else:
         summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
 
         # Crear la visualización con la serie temporal filtrada
-        fig, ax = plt.subplots(figsize=(8, 4))  # Tamaño en pulgadas (más pequeño)
+        fig, ax = plt.subplots(figsize=(6, 3))  # Tamaño en pulgadas (más pequeño)
 
         # Configurar fondo negro, quitar gridlines y línea roja
         fig.patch.set_facecolor('black')
         ax.set_facecolor('black')
-        ax.plot(summary_all_lines['Fecha'], summary_all_lines['Rendimiento'], label='Histórico', color='red', marker='o')
+        ax.plot(summary_all_lines['Fecha'], summary_all_lines['Rendimiento'], label='Datos Reales', color='red', marker='o')
         ax.grid(False)  # Quitar gridlines
 
         # Si el rango de fechas incluye periodos futuros, realizar la predicción
@@ -116,12 +116,10 @@ else:
         ax.set_xlabel('Fecha', fontsize=10, color='white')
         ax.set_ylabel('Cantidad', fontsize=10, color='white')
         ax.set_title(f'Predicción de Cantidad de Pintura - {selected_painting}', fontsize=12, color='white')
-        ax.legend(fontsize=10, facecolor='black', edgecolor='white')
+        ax.legend(fontsize=10, facecolor='black', edgecolor='white', labelcolor='white')
         ax.tick_params(axis='both', which='major', labelsize=10, colors='white')
 
-        ax.grid(True)
         plt.tight_layout()  # Ajusta el layout para evitar solapamiento
 
         # Mostrar la figura en Streamlit con tamaño ajustado
         st.pyplot(fig, use_container_width=True)
-
