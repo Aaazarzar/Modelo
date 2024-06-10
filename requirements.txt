@@ -2,4 +2,4 @@ streamlit
 pandas
 plost
 matplotlib
-statsmodel
+statsmodels
