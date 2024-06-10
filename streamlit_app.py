@@ -94,7 +94,7 @@ else:
             summary_all_lines['Fecha'] = pd.to_datetime(summary_all_lines['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig, ax = plt.subplots(figsize=(3, 2))  # Tamaño en pulgadas (más pequeño)
+            fig, ax = plt.subplots(figsize=(3, 3))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig.patch.set_facecolor('black')
@@ -156,7 +156,7 @@ else:
             summary_litros_data['Fecha'] = pd.to_datetime(summary_litros_data['Fecha'])
 
             # Crear la visualización con la serie temporal filtrada
-            fig2, ax2 = plt.subplots(figsize=(2, 1))  # Tamaño en pulgadas (más pequeño)
+            fig2, ax2 = plt.subplots(figsize=(3, 3))  # Tamaño en pulgadas (más pequeño)
 
             # Configurar fondo negro, quitar gridlines y línea roja
             fig2.patch.set_facecolor('black')
