@@ -5,7 +5,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 import datetime
 
 # Configurar la página de Streamlit
-st.set_page_config(layout='wide', initial_sidebar_state='expanded')
+st.set_page_config(layout='centered', initial_sidebar_state='expanded')
 
 # Cargar datos desde los archivos
 @st.cache_data
@@ -132,10 +132,10 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax.set_xlabel('Fecha', fontsize=3, color='white')
-            ax.set_ylabel('Rendimiento', fontsize=3, color='white')
-            ax.legend(fontsize=3, facecolor='black', edgecolor='white', labelcolor='white')
-            ax.tick_params(axis='both', which='major', labelsize=3, colors='white')
+            ax.set_xlabel('Fecha', fontsize=4, color='white')
+            ax.set_ylabel('Rendimiento', fontsize=4, color='white')
+            ax.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white')
+            ax.tick_params(axis='both', which='major', labelsize=4, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
 
@@ -194,10 +194,10 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax2.set_xlabel('Fecha', fontsize=3, color='white')
-            ax2.set_ylabel('Litros', fontsize=3, color='white')
-            ax2.legend(fontsize=3, facecolor='black', edgecolor='white', labelcolor='white')
-            ax2.tick_params(axis='both', which='major', labelsize=3, colors='white')
+            ax2.set_xlabel('Fecha', fontsize=4, color='white')
+            ax2.set_ylabel('Litros', fontsize=4, color='white')
+            ax2.legend(fontsize=4, facecolor='black', edgecolor='white', labelcolor='white')
+            ax2.tick_params(axis='both', which='major', labelsize=4, colors='white')
 
             plt.tight_layout()  # Ajusta el layout para evitar solapamiento
 
