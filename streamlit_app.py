@@ -101,7 +101,8 @@ else:
             ax.set_facecolor('black')
             ax.plot(summary_all_lines['Fecha'], summary_all_lines['Rendimiento'], label='Datos Reales', color='red', marker='o', linewidth=1, markersize=4)
             ax.grid(False)  # Quitar gridlines
-
+            # Rotar las etiquetas del eje x
+            plt.xticks(rotation=90)
             # Si el rango de fechas incluye periodos futuros, realizar la predicción
             if end_date > summary_all_lines['Fecha'].max():
                 cantidad_series_all_lines = summary_all_lines.set_index('Fecha')['Rendimiento']
@@ -163,7 +164,8 @@ else:
             ax2.set_facecolor('black')
             ax2.plot(summary_litros_data['Fecha'], summary_litros_data['Ctd_total_reg'], label='Datos Reales', color='red', marker='o', linewidth=1, markersize=4)
             ax2.grid(False)  # Quitar gridlines
-
+            # Rotar las etiquetas del eje x
+            plt.xticks(rotation=90)
             # Si el rango de fechas incluye periodos futuros, realizar la predicción
             if end_date > summary_litros_data['Fecha'].max():
                 cantidad_series_litros = summary_litros_data.set_index('Fecha')['Ctd_total_reg']
