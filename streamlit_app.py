@@ -132,7 +132,7 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax.set_xlabel('Fecha', fontsize=4, color='white')
+            ax.set_xlabel('Fecha', fontsize=3, color='white')
             ax.set_ylabel('Rendimiento', fontsize=5, color='white')
             ax.legend(fontsize=5, facecolor='black', edgecolor='white', labelcolor='white', markerscale=0.8, handletextpad=0.5)
             ax.tick_params(axis='both', which='major', labelsize=5, colors='white')
@@ -194,7 +194,7 @@ else:
                         st.error(f'Error al ajustar el modelo SARIMA: {e}')
             
             # Ajustar tamaños de las fuentes y colores
-            ax2.set_xlabel('Fecha', fontsize=4, color='white')
+            ax2.set_xlabel('Fecha', fontsize=3, color='white')
             ax2.set_ylabel('Litros', fontsize=5, color='white')
             ax2.legend(fontsize=5, facecolor='black', edgecolor='white', labelcolor='white', markerscale=0.8, handletextpad=0.5)
             ax2.tick_params(axis='both', which='major', labelsize=5, colors='white')
